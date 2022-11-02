@@ -83,12 +83,17 @@ const Header = () => {
           </li>
           <li>
             {user?.uid ? (
-              <button
-                onClick={handleLogOut}
-                className="px-3 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded-md border-none"
-              >
-                Log Out
-              </button>
+              <>
+                <li>
+                  <Link to="/orders">Orders</Link>
+                </li>
+                <button
+                  onClick={handleLogOut}
+                  className="px-3 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded-md border-none"
+                >
+                  Log Out
+                </button>
+              </>
             ) : (
               <Link to="/login">
                 <button className=" p-2  bg-blue-400 hover:bg-blue-600 text-white rounded-md border-none">

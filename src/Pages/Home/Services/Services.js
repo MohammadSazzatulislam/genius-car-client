@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../Context/AuthProvider/AuthProvider";
 import ServicesCard from "./ServicesCard/ServicesCard";
 
 const Services = () => {
   const [services, setServices] = useState([]);
+
 
   useEffect(() => {
     fetch("http://localhost:5000/servicess")
