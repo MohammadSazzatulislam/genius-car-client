@@ -64,8 +64,8 @@ const Header = () => {
           <img src={logo} alt="" />
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal font-semibold p-0">
+      <div className="navbar-center hidden lg:flex  m-0 p-0 ">
+        <ul className="menu menu-horizontal font-semibold ">
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -83,20 +83,20 @@ const Header = () => {
           </li>
           <li>
             {user?.uid ? (
-              <>
+              <p className="flex items-center">
                 <li>
                   <Link to="/orders">Orders</Link>
                 </li>
                 <button
                   onClick={handleLogOut}
-                  className="px-3 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded-md border-none"
+                  className="px-2 py-1 bg-blue-600 text-white rounded-sm"
                 >
                   Log Out
                 </button>
-              </>
+              </p>
             ) : (
               <Link to="/login">
-                <button className=" p-2  bg-blue-400 hover:bg-blue-600 text-white rounded-md border-none">
+                <button className="px-2 py-1 bg-blue-600 text-white rounded-sm">
                   Log In
                 </button>
               </Link>
@@ -106,7 +106,7 @@ const Header = () => {
       </div>
       <div className="navbar-end">
         <Link>
-          <button className="px-3 py-2 btn btn-outline btn-danger rounded-md border-2 border-red-500 text-red-500 font-semibold">
+          <button className=" btn btn-outline btn-danger rounded-md border-2 border-red-500 text-red-500 font-semibold">
             Appointment
           </button>
         </Link>

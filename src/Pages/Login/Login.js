@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import logimg from "../../assets/images/login/login.svg";
 import { FaFacebookF, FaGoogle, FaLinkedinIn } from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
@@ -8,6 +8,10 @@ const Login = () => {
   const [users, setUsers] = useState([]);
 
   const { signInUser } = useContext(AuthContext);
+  const location = useLocation()
+  const navigate = useNavigate()
+    const from = location.state?.from?.pathname || "/";
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,6 +23,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         event.target.reset()
+        navigate(from, { replace:true})
         console.log(user);
         
       })

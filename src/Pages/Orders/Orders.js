@@ -36,7 +36,7 @@ const Orders = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.modifiedCount>0) {
+        if (data.modifiedCount > 0) {
           const remaining = orders.filter((odr) => odr._id !== id);
           const approval = orders.find((odr) => odr._id === id);
           approval.status = "Approved";
