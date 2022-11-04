@@ -3,14 +3,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import logimg from "../../assets/images/login/login.svg";
 import { FaFacebookF, FaGoogle, FaLinkedinIn } from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
+import { GoogleAuthProvider } from "firebase/auth";
+import { AuthToken } from "../../Api/AuthToken";
+
+const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
   const [users, setUsers] = useState([]);
 
-  const { signInUser } = useContext(AuthContext);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
+  const { signInUser, googleSignIn, } = useContext(AuthContext);
+
+     const location = useLocation();
+     const navigate = useNavigate();
+     const from = location.state?.from?.pathname || "/";
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,23 +32,11 @@ const Login = () => {
         const currentUser = {
           email: user.email,
         };
-
-        fetch("https://genius-car-server-eosin-three.vercel.app/jwt", {
-          method: "POST",
-          headers: {
-            "content-type":"application/json"
-          },
-          body: JSON.stringify(currentUser)
-
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            //local storage is the easist but not the secure
-            localStorage.setItem("genius-token", data.token);
-            navigate(from, { replace: true });
-          });
+        AuthToken(currentUser);
+         navigate(from, { replace: true });
       })
       .catch((err) => console.log(err));
+    
   };
 
   const handleChange = (e) => {
@@ -52,6 +46,27 @@ const Login = () => {
     updateUser[name] = field;
     setUsers(updateUser);
   };
+
+
+  const handleGoogle = () => {
+    googleSignIn(googleProvider)
+      .then((result) => {
+        const user = result.user;
+
+        const currentUser = {
+          email: user.email
+        }
+        AuthToken(currentUser)
+
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
+
+
+
+
   return (
     <div className="hero w-full  py-5">
       <div className="hero-content flex-col lg:flex-row">
@@ -105,7 +120,10 @@ const Login = () => {
                 </button>
               </Link>
               <Link>
-                <button className="btn btn-outline btn-circle btn-primary">
+                <button
+                  onClick={handleGoogle}
+                  className="btn btn-outline btn-circle btn-primary"
+                >
                   <FaGoogle></FaGoogle>
                 </button>
               </Link>
