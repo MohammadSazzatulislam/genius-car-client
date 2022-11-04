@@ -4,19 +4,35 @@ import { Link } from "react-router-dom";
 import OrdersRow from "./OrdersRow";
 
 const Orders = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOUtUser } = useContext(AuthContext);
 
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/orders?email=${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => setOrders(data));
-  }, [user?.email]);
+    fetch(`http://localhost:5000/orders?email=${user?.email}`, {
+      headers: {
+        authorization : `Bearer ${localStorage.getItem('genius-token')}`
+      }
+    })
+      .then((res) => {
+        if(res.status === 401 || res.status === 403 ){
+         return logOUtUser()
+        }
+        return res.json();
+      })
+      .then((data) => {
+
+        setOrders(data)
+
+      });
+  }, [user?.email, logOUtUser]);
 
   const handleDelete = (_id) => {
     fetch(`http://localhost:5000/orders/${_id}`, {
       method: "DELETE",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("genius-token")}`,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -31,6 +47,7 @@ const Orders = () => {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("genius-token")}`,
       },
       body: JSON.stringify({ status: "Approved" }),
     })

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useLocation,useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logimg from "../../assets/images/login/login.svg";
 import { FaFacebookF, FaGoogle, FaLinkedinIn } from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
@@ -8,10 +8,9 @@ const Login = () => {
   const [users, setUsers] = useState([]);
 
   const { signInUser } = useContext(AuthContext);
-  const location = useLocation()
-  const navigate = useNavigate()
-    const from = location.state?.from?.pathname || "/";
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,10 +21,26 @@ const Login = () => {
     signInUser(email, password)
       .then((result) => {
         const user = result.user;
-        event.target.reset()
-        navigate(from, { replace:true})
-        console.log(user);
-        
+        event.target.reset();
+
+        const currentUser = {
+          email: user.email,
+        };
+
+        fetch("http://localhost:5000/jwt", {
+          method: "POST",
+          headers: {
+            "content-type":"application/json"
+          },
+          body: JSON.stringify(currentUser)
+
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            //local storage is the easist but not the secure
+            localStorage.setItem("genius-token", data.token);
+            navigate(from, { replace: true });
+          });
       })
       .catch((err) => console.log(err));
   };

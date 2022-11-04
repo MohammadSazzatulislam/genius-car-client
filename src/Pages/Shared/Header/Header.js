@@ -9,6 +9,7 @@ const Header = () => {
   const handleLogOut = () => {
     logOUtUser()
       .then(() => {
+       
         // Sign-out successful.
       })
       .catch((error) => {
