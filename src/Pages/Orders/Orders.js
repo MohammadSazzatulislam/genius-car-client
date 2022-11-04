@@ -9,7 +9,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/orders?email=${user?.email}`, {
+    fetch(`https://genius-car-server-eosin-three.vercel.app/orders?email=${user?.email}`, {
       headers: {
         authorization : `Bearer ${localStorage.getItem('genius-token')}`
       }
@@ -28,7 +28,7 @@ const Orders = () => {
   }, [user?.email, logOUtUser]);
 
   const handleDelete = (_id) => {
-    fetch(`http://localhost:5000/orders/${_id}`, {
+    fetch(`https://genius-car-server-eosin-three.vercel.app/orders/${_id}`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${localStorage.getItem("genius-token")}`,
@@ -43,7 +43,7 @@ const Orders = () => {
   };
 
   const handleStatus = (id) => {
-    fetch(`http://localhost:5000/orders/${id}`, {
+    fetch(`https://genius-car-server-eosin-three.vercel.app/orders/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

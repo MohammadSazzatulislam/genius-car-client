@@ -29,7 +29,9 @@ const router = createBrowserRouter([
       {
         path: "/checkout/:id",
         loader: async ({ params }) =>
-          fetch(`http://localhost:5000/servicess/${params.id}`),
+          fetch(
+            `https://genius-car-server-eosin-three.vercel.app/servicess/${params.id}`
+          ),
         element: (
           <PrivateRoute>
             <Checkout></Checkout>

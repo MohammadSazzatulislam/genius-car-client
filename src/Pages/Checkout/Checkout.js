@@ -25,11 +25,9 @@ const Checkout = () => {
       message,
     };
 
- 
-
     //  you must be validate email name phone
 
-    fetch("http://localhost:5000/orders", {
+    fetch("https://genius-car-server-eosin-three.vercel.app/orders", {
       method: "POST",
       headers: {
         "content-type": "application/json",
